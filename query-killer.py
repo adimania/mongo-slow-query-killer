@@ -7,7 +7,7 @@ from types import NoneType
 parser = OptionParser()
 parser.add_option("-m", "--mongohost", dest="host", help="Mongodb address to be connected", metavar="MONGO_HOST")
 parser.add_option("-p", "--mongoport", dest="port", help="Mongodb port to be connected", metavar="MONGO_PORT")
-parser.add_option("-t", "--timeout", dest="timeout", help="Time threshold for killing the query", metavar="TIMEOUT")
+parser.add_option("-t", "--timeout", dest="timeout", help="Time threshold in seconds for killing the query", metavar="TIMEOUT", type="int")
 (options, args) = parser.parse_args()
 
 if type(options.host) is NoneType:
