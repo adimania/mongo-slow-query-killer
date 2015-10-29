@@ -26,7 +26,7 @@ if type(options.timeout) is NoneType:
 else:
 	timeout = options.timeout
 
-logging.info('Connecting to %s:%s. Timeout set to %d seconds' % (host,port,timout))
+logging.info('Connecting to %s:%s. Timeout set to %d seconds' % (host,port,timeout))
 client = MongoClient('mongodb://%s:%s/' % (host, port))
 db = client.test_database
 ops = db.current_op()
