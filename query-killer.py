@@ -3,6 +3,9 @@
 from pymongo import MongoClient
 from optparse import OptionParser
 from types import NoneType
+import logging
+
+logging.basicConfig(filename='mongo-query-killer.log',level=logging.DEBUG, format='%(asctime)s %(message)s')
 
 parser = OptionParser()
 parser.add_option("-m", "--mongohost", dest="host", help="Mongodb address to be connected", metavar="MONGO_HOST")
@@ -23,11 +26,12 @@ if type(options.timeout) is NoneType:
 else:
 	timeout = options.timeout
 
-print 'connecting to %s:%s' % (host,port)
+logging.info('Connecting to %s:%s. Timeout set to %d seconds' % (host,port,timout))
 client = MongoClient('mongodb://%s:%s/' % (host, port))
 db = client.test_database
 ops = db.current_op()
 for op in ops['inprog']:
 	if op['op'] == 'query':
 		if op['secs_running'] > timeout:
+                        logging.info('Trying to kill '+str(op))     
 			db['$cmd.sys.killop'].find_one({'op':op['opid']})
